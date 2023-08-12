@@ -86,7 +86,7 @@ def get_span_markup(text, bg = None, fg = 'black'):
 def iterate_container(widget):
     yield widget
 
-    if isinstance(widget, gtk.Container):
+    if isinstance(widget, Gtk.Container):
         for child in widget.get_children():
             for x in iterate_container(child): yield x
 

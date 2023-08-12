@@ -438,7 +438,7 @@ class FAHControl(SingleAppServer):
                 self.osx_create_dock_menu(self.osx_menu)
 
             # Create application menu
-            self.osx_menubar = gtk.MenuBar()
+            self.osx_menubar = Gtk.MenuBar()
             self.osx_menubar.show_all()
             self.osx_app.set_menu_bar(self.osx_menubar)
             if self.is_old_gtk:
@@ -1211,7 +1211,7 @@ class FAHControl(SingleAppServer):
     def get_visible_dialogs(self):
         dialogs = []
         for dialog in self.dialogs:
-            if dialog.flags() & gtk.MAPPED:
+            if dialog.flags() & Gtk.MAPPED:
                 dialogs.append(dialog)
 
         return dialogs

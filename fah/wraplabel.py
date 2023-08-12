@@ -51,17 +51,17 @@ class WrapLabel(Gtk.Label):
 
 
     def do_size_allocate(self, allocation):
-        gtk.Label.do_size_allocate(self, allocation)
+        Gtk.Label.do_size_allocate(self, allocation)
         self.__set_wrap_width(allocation.width)
 
 
     def set_text(self, str):
-        gtk.Label.set_text(self, str)
+        Gtk.Label.set_text(self, str)
         self.__set_wrap_width(self.__wrap_width)
 
 
     def set_markup(self, str):
-        gtk.Label.set_markup(self, str)
+        Gtk.Label.set_markup(self, str)
         self.__set_wrap_width(self.__wrap_width)
 
 
