@@ -19,7 +19,13 @@
 #                                                                              #
 ################################################################################
 
-from UserDict import DictMixin
+import sys
+from collections import UserDict
+
+if sys.version_info[:2] >= (3, 8):
+    from collections.abc import MutableMapping as DictMixin
+else:
+    from collections import MutableMapping as DictMixin
 
 class OrderedDict(dict, DictMixin):
 
@@ -93,9 +99,9 @@ class OrderedDict(dict, DictMixin):
     pop = DictMixin.pop
     values = DictMixin.values
     items = DictMixin.items
-    iterkeys = DictMixin.iterkeys
-    itervalues = DictMixin.itervalues
-    iteritems = DictMixin.iteritems
+    #iterkeys = DictMixin.iterkeys
+    #itervalues = DictMixin.itervalues
+    #iteritems = DictMixin.iteritems
 
     def __repr__(self):
         if not self:
