@@ -32,7 +32,7 @@ def set_proc_name(name):
 
     libc = cdll.LoadLibrary('libc.so.6')
     buff = create_string_buffer(len(name)+1)
-    buff.value = name
+    buff.value = b'name'
     libc.prctl(15, byref(buff), 0, 0, 0)
 
 
