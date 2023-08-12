@@ -239,7 +239,6 @@ class FAHControl(SingleAppServer):
 
         # Main window
         self.window = builder.get_object('window')
-        self.window.set_geometry_hints(None, 440, 256, -1, -1, 800, 512)
         set_tree_view_font(self.window, self.mono_font)
         self.status_bar = builder.get_object('status_bar')
         self.ppd_label = builder.get_object('ppd_label')
