@@ -19,14 +19,19 @@
 #                                                                              #
 ################################################################################
 
+
 import sys
 import socket
 import threading
 import socketserver
+import gi
+
+from fah.Icon import get_icon
+
+gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk
 
-from fah.Icon import get_icon
 
 single_app_host = '127.0.0.1'
 single_app_port = 32455
