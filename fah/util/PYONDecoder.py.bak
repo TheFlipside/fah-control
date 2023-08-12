@@ -29,8 +29,8 @@ NUMBER_RE = re.compile(r'(-?(?:0|[1-9]\d*))(\.\d+)?([eE][-+]?\d+)?',
 FLAGS = re.VERBOSE | re.MULTILINE | re.DOTALL
 STRINGCHUNK = re.compile(r'(.*?)(["\\\x00-\x1f])', FLAGS)
 BACKSLASH = {
-  '"': '"', '\\': '\\', '/': '/',
-  'b': '\b', 'f': '\f', 'n': '\n', 'r': '\r', 't': '\t',
+  '"': u'"', '\\': u'\\', '/': u'/',
+  'b': u'\b', 'f': u'\f', 'n': u'\n', 'r': u'\r', 't': u'\t',
 }
 
 DEFAULT_ENCODING = "utf-8"
@@ -94,8 +94,8 @@ def pyon_scanstring(s, end, encoding = None, strict = True,
 
     # Content is contains zero or more unescaped string characters
     if content:
-      if not isinstance(content, str):
-        content = str(content, encoding)
+      if not isinstance(content, unicode):
+        content = unicode(content, encoding)
       _append(content)
 
     # Terminator is the end of string, a literal control character,
@@ -127,7 +127,7 @@ def pyon_scanstring(s, end, encoding = None, strict = True,
       # Hex escape sequence
       code = s[end + 1: end + 3]
       try:
-        char = chr(int(code, 16))
+        char = unichr(int(code, 16))
       except:
         raise ValueError(errmsg('Invalid \\escape: ' + repr(code), s, end))
 
@@ -144,12 +144,12 @@ def pyon_scanstring(s, end, encoding = None, strict = True,
         if 0xdc00 <= uni2 <= 0xdfff:
           uni = 0x10000 + (((uni - 0xd800) << 10) | (uni2 - 0xdc00))
           end += 6
-      char = chr(uni)
+      char = unichr(uni)
 
     # Append the unescaped character
     _append(char)
 
-  return ''.join(chunks), end
+  return u''.join(chunks), end
 
 
 

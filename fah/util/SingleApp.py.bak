@@ -22,7 +22,7 @@
 import sys
 import socket
 import threading
-import socketserver
+import SocketServer
 
 import gtk
 
@@ -33,7 +33,7 @@ single_app_port = 32455
 single_app_addr = (single_app_host, single_app_port)
 
 
-class SingleAppRequestHandler(socketserver.BaseRequestHandler):
+class SingleAppRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         cmd = self.request.recv(1024).strip()
 
@@ -47,7 +47,7 @@ class SingleAppRequestHandler(socketserver.BaseRequestHandler):
 
 
 
-class SingleAppServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+class SingleAppServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
     allow_reuse_address = True
 
     def __init__(self):
@@ -57,7 +57,7 @@ class SingleAppServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.ping = threading.Event()
         self.exit_requested = threading.Event()
 
-        socketserver.TCPServer.__init__(
+        SocketServer.TCPServer.__init__(
             self, single_app_addr, SingleAppRequestHandler)
 
         thread = threading.Thread(target = self.serve_forever)
