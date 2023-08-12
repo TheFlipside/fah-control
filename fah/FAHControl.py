@@ -52,7 +52,7 @@ from fah.util import *
 def set_tree_view_font(widget, font):
     for widget in iterate_container(widget):
         if isinstance(widget, Gtk.TreeView):
-            widget.modify_font(font)ont)
+            widget.modify_font(font)font)
 
 
 def append_tree_entry(model, path, iter, selection):
