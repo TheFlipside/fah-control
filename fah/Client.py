@@ -24,7 +24,6 @@ import time
 import re
 import copy
 import collections
-import gtk
 import subprocess
 import time
 import sys
@@ -34,6 +33,9 @@ import shlex
 
 from fah import *
 from fah.util import status_to_color, make_row, get_home_dir
+
+from gi.repository import Gtk
+
 
 debug = False
 

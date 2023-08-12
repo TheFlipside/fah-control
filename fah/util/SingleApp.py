@@ -24,7 +24,7 @@ import socket
 import threading
 import socketserver
 
-import gtk
+from gi.repository import Gtk
 
 from fah.Icon import get_icon
 

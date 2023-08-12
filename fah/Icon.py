@@ -19,7 +19,8 @@
 #                                                                              #
 ################################################################################
 
-import gtk
+from gi.repository import Gtk
+
 
 icons = {'tiny': None, 'small': None, 'medium': None, 'large': None}
 viewer_icons = {'tiny': None, 'small': None, 'medium': None, 'large': None}

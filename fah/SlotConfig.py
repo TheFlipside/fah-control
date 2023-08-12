@@ -19,12 +19,16 @@
 #                                                                              #
 ################################################################################
 
-import gtk
+import gi
 import gobject
 import copy
 
 from fah.util import parse_bool
 from fah.util import status_to_color
+
+from gi.repository import Gtk
+
+gi.require_version("Gtk", "3.0")
 
 
 class SlotConfig:

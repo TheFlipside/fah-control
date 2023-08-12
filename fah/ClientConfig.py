@@ -20,7 +20,6 @@
 ################################################################################
 
 import sys
-import gtk
 import traceback
 import re
 
@@ -30,6 +29,9 @@ from fah.util import get_span_markup
 from fah.util import get_widget_str_value
 from fah.util import set_widget_str_value
 from fah import SlotConfig
+
+from gi.repository import Gtk
+from gi.repository import GLib
 
 
 def get_option_mods(old_options, new_options):
@@ -231,9 +233,11 @@ class ClientConfig:
 
 
     def select_slot(self, app):
-        # Get selected slot
-        slot = self.get_selected_slot(app)
-        if slot is None: return
+        # since gtk3, clearing a tree list model will also trigger a cleared
+        # selection signal, causing a call to this function, and scrambling user selection
+        # so we return immediately, if the client is updating
+        if self.updating:
+            return
 
         # Get associated queue ID
         first_id = None
@@ -264,13 +268,16 @@ class ClientConfig:
 
 
     def select_queue_slot(self, app):
+        # since gtk3, clearing a tree list model will also trigger a cleared
+        # selection signal, causing a call to this function, and scrambling user selection
+        # so we return immediately, if the client is updating
+        if self.updating:
+            return
+
         # Get unit ID of selected queue entry
         selected = self.get_selected_queue_entry(app)
-        if selected is None: return
-
-         # Get associated slot ID
-        entry = self.queue_map[selected]
-        slot = int(entry['slot'])
+        if selected is None:
+            return
 
         # Find and select the slot
         list = app.slot_status_list
@@ -290,19 +297,20 @@ class ClientConfig:
             set_widget_str_value(widget, None)
 
 
-    def update_info(self, app):
+def update_info(self, app):
         port = app.info
 
         # Clear
-        for child in port.get_children(): port.remove(child)
+        for child in port.get_children():
+            port.remove(child)
 
         # Alignment
-        align = gtk.Alignment(0, 0, 1, 1)
+        align = Gtk.Alignment.new(0, 0, 1, 1)
         align.set_padding(4, 4, 4, 4)
         port.add(align)
 
         # Vertical box
-        vbox = gtk.VBox()
+        vbox = Gtk.VBox()
         align.add(vbox)
 
         for category in self.info:
@@ -310,42 +318,47 @@ class ClientConfig:
             category = category[1:]
 
             # Frame
-            frame = gtk.Frame('<b>%s</b>' % name)
-            frame.set_shadow_type(gtk.SHADOW_ETCHED_IN)
+            frame = Gtk.Frame.new('<b>%s</b>' % name)
+            frame.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
+            frame.set_label_align(0.01, 0.5)
             frame.get_label_widget().set_use_markup(True)
-            vbox.pack_start(frame, False)
+            vbox.pack_start(frame, False, False, 0)
 
             # Alignment
-            align = gtk.Alignment(0, 0, 1, 1)
+            align = Gtk.Alignment.new(0, 0, 1, 1)
             align.set_padding(0, 0, 12, 0)
             frame.add(align)
 
             # Table
-            table = gtk.Table(len(category), 2)
+            table = Gtk.Table(len(category), 2)
             table.set_col_spacing(0, 5)
             align.add(table)
 
             row = 0
             for name, value in category:
-                if not value: continue
+                if not value:
+                    continue
 
                 # Name
-                label = gtk.Label('<b>%s</b>' % name)
+                label = Gtk.Label(label='<b>%s</b>' % name)
                 label.set_use_markup(True)
                 label.set_alignment(1, 0.5)
-                table.attach(label, 0, 1, row, row + 1, gtk.FILL, gtk.FILL)
+                table.attach(label, 0, 1, row, row + 1,
+                             Gtk.AttachOptions.FILL, Gtk.AttachOptions.FILL)
 
                 # Value
                 if value.startswith('http://'):
-                    label = gtk.LinkButton(value, value)
-                    label.set_relief(gtk.RELIEF_NONE)
+                    label = Gtk.LinkButton(value, value)
+                    label.set_relief(Gtk.ReliefStyle.NONE)
                     label.set_property('can-focus', False)
 
-                else: label = gtk.Label(value)
+                else:
+                    label = Gtk.Label(label=value)
 
                 label.set_alignment(0, 0.5)
                 label.modify_font(app.mono_font)
-                table.attach(label, 1, 2, row, row + 1, yoptions = gtk.FILL)
+                table.attach(label, 1, 2, row, row + 1,
+                             yoptions=Gtk.AttachOptions.FILL)
 
                 row += 1
 
@@ -461,11 +474,17 @@ class ClientConfig:
             slot.add_to_ui(app)
 
 
+
     def scroll_log_to_end(self, app):
-        if not app.log_follow.get_active(): return
-        mark = app.log.get_mark('end')
-        app.log.move_mark(mark, app.log.get_end_iter())
-        app.log_view.scroll_mark_onscreen(mark)
+        if not app.log_follow.get_active():
+            return
+
+        def scroll():
+            mark = app.log.get_mark('end')
+            app.log.move_mark(mark, app.log.get_end_iter())
+            app.log_view.scroll_mark_onscreen(mark)
+
+        GLib.idle_add(scroll)
 
 
     def log_clear(self, app):

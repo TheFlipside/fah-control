@@ -19,22 +19,26 @@
 #                                                                              #
 ################################################################################
 
-import gtk
-import gobject
-import pango
+import gi
+
+from gi.repository import Gtk
+from gi.repository import GObject
+from gi.repository import Pango
+
+gi.require_version("Gtk", "3.0")
 
 
-class WrapLabel(gtk.Label):
+class WrapLabel(Gtk.Label):
     __gtype_name__ = 'WrapLabel'
 
     def __init__(self, str = None):
-        gtk.Label.__init__(self)
+        GObject.GObject.__init__(self)
 
         self.__wrap_width = 0
         self.layout = self.get_layout()
-        self.layout.set_wrap(pango.WRAP_WORD_CHAR)
+        self.layout.set_wrap(Pango.WrapMode.WORD_CHAR)
 
-        if str != None: self.set_text(str)
+        if str is not None: self.set_text(str)
 
         self.set_alignment(0, 0)
 
@@ -64,7 +68,7 @@ class WrapLabel(gtk.Label):
     def __set_wrap_width(self, width):
         if width == 0: return
         layout = self.get_layout()
-        layout.set_width(width * pango.SCALE)
+        layout.set_width(width * Pango.SCALE)
         if self.__wrap_width != width:
             self.__wrap_width = width
             self.queue_resize()
