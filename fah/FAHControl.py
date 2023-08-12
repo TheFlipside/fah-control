@@ -121,6 +121,22 @@ def load_fahcontrol_db():
     return db
 
 
+def find_icon(icon):
+    xdg_data_dirs_based_paths = [os.path.join(dir, 'icons', icon) for dir in
+                                 os.environ.get('XDG_DATA_DIRS', '').split(':')]
+    paths = (
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'images', icon),
+        os.path.join(os.environ.get('HOME', ''), '.icons', icon),
+        *xdg_data_dirs_based_paths,
+        os.path.join('/usr/share/pixmaps', icon)
+    )
+
+    try:
+        return next(filter(os.path.isfile, paths))
+    except StopIteration as e:
+        return None
+
+
 class FAHControl(SingleAppServer):
     client_cols = 'name status status_color address'.split()
 
@@ -183,9 +199,6 @@ class FAHControl(SingleAppServer):
             self.osx_version = osx_version()
             osx_add_GtkApplicationDelegate_methods()
 
-        # URI hook
-        Gtk.link_button_set_uri_hook(self.on_uri_hook, None)
-
         # Style
         settings = Gtk.Settings.get_default()
         self.system_theme = settings.get_property('gtk-theme-name')
@@ -201,7 +214,9 @@ class FAHControl(SingleAppServer):
         self.mono_font = Pango.FontDescription('Monospace')
 
         # Default icon
-        Gtk.window_set_default_icon(get_icon('small'))
+        icon_file = find_icon('FAHControl.ico')
+        if icon_file:
+            self.window.set_default_icon_from_file(icon_file)
 
         # Filter glade
         if len(glade) < 1024:
