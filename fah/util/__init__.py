@@ -32,11 +32,11 @@ if sys.platform == 'darwin':
         from gtkosx_application import gtkosx_application_get_resource_path \
             as quartz_application_get_resource_path
 
-from SingleApp import *
-from EntryValidator import *
-from PasswordValidator import *
-from OrderedDict import *
-from PYONDecoder import *
+from .SingleApp import *
+from .EntryValidator import *
+from .PasswordValidator import *
+from .OrderedDict import *
+from .PYONDecoder import *
 
 
 def parse_bool(x):
@@ -125,7 +125,7 @@ def get_widget_str_value(widget):
         return widget.get_active_text()
 
     else:
-        print ('ERROR: unsupported widget type %s' % type(widget))
+        print(('ERROR: unsupported widget type %s' % type(widget)))
 
 
 def set_widget_str_value(widget, value):
@@ -159,7 +159,7 @@ def set_widget_str_value(widget, value):
                 widget.set_active(i)
                 return
 
-        print ('ERROR: Invalid value "%s"' % value)
+        print(('ERROR: Invalid value "%s"' % value))
 
     elif isinstance(widget, gtk.ProgressBar):
         widget.set_text(value)
@@ -172,7 +172,7 @@ def set_widget_str_value(widget, value):
         widget.set_fraction(fraction)
 
     else:
-        print ('ERROR: unsupported option widget type %s' % type(widget))
+        print(('ERROR: unsupported option widget type %s' % type(widget)))
 
 
 def set_widget_change_action(widget, action):
@@ -192,7 +192,7 @@ def set_widget_change_action(widget, action):
         widget.connect('rows_reordered', action)
 
     else:
-        print ('ERROR: unsupported option widget type %s' % type(widget))
+        print(('ERROR: unsupported option widget type %s' % type(widget)))
 
 
 def get_home_dir():
