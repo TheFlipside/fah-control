@@ -297,7 +297,7 @@ class ClientConfig:
             set_widget_str_value(widget, None)
 
 
-def update_info(self, app):
+    def update_info(self, app):
         port = app.info
 
         # Clear
