@@ -863,6 +863,7 @@ class FAHControl(SingleAppServer):
         self.preferences_set()
 
 
+
     def preferences_dialog_init(self):
         for name, widget in list(self.preference_widgets.items()):
             if self.db.has(name):
@@ -872,14 +873,15 @@ class FAHControl(SingleAppServer):
         for pref in ['donor', 'team']:
             entry = self.preference_widgets[pref + '_stats']
             combo = self.preference_widgets[pref + '_stats_link']
-            entry.set_sensitive(combo.get_active_text() == 'Custom')
-
+            entry.set_sensitive(combo.get_active_id() == 'Custom')
 
     def preferences_save(self):
         for name, widget in list(self.preference_widgets.items()):
             value = get_widget_str_value(widget)
-            if value is None: self.db.clear(name, False)
-            else: self.db.set(name, value, False)
+            if value is None:
+                self.db.clear(name, False)
+            else:
+                self.db.set(name, value, False)
 
         self.db.commit()
 
@@ -1213,7 +1215,7 @@ class FAHControl(SingleAppServer):
     def get_visible_dialogs(self):
         dialogs = []
         for dialog in self.dialogs:
-            if dialog.flags() & Gtk.MAPPED:
+            if dialog.get_mapped():
                 dialogs.append(dialog)
 
         return dialogs
@@ -1221,7 +1223,8 @@ class FAHControl(SingleAppServer):
 
     def hide_all_windows(self):
         self.restore_dialogs = self.get_visible_dialogs()
-        for dialog in self.restore_dialogs: dialog.hide()
+        for dialog in self.restore_dialogs:
+            dialog.hide()
         self.window.hide()
         self.window_visible = False
 
