@@ -39,12 +39,12 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 
+from gi.repository import GObject
+from gi.repository import Pango
 from gi.repository import Gtk
 from gi.repository import GLib
 from gi.repository import Gdk
 from gi.repository.GdkPixbuf import Pixbuf, InterpType
-from gi.repository import Pango
-
 
 # OSX integration
 if sys.platform == 'darwin':
@@ -386,7 +386,7 @@ class FAHControl(SingleAppServer):
         self.slot_menu = builder.get_object('slot_menu')
         self.idle_slot_item = builder.get_object('idle_slot_item')
         view_slot_item = builder.get_object('view_slot_item')
-        view_slot_item.get_image().set_from_pixbuf(get_viewer_icon('tiny'))
+        # view_slot_item.get_image().set_from_pixbuf(get_viewer_icon('tiny'))
 
         # Slot dialog
         self.slot_type_cpu = builder.get_object('slot_type_cpu')
