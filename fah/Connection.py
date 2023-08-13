@@ -107,15 +107,17 @@ class Connection:
         self.last_connect = time.time()
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.setblocking(0)
-        err = self.socket.connect_ex((self.address, self.port))
-
-        if err != 0 and not err in [
-            errno.EINPROGRESS, errno.EWOULDBLOCK, WSAEWOULDBLOCK]:
+        self.socket.setblocking(False)
+        ready = select.select([self.socket], [self.socket], [], 10)
+        if ready[0]:
+            err = self.socket.connect_ex((self.address, self.port))
+        if err != 0 and err != 115 and err not in [
+                errno.EINPROGRESS, errno.EWOULDBLOCK, WSAEWOULDBLOCK]:
             self.fail_reason = 'connect'
             raise Exception('Connection failed: ' + errno.errorcode[err])
 
-        if self.password: self.queue_command('auth "%s"' % self.password)
+        if self.password:
+            self.queue_command('auth "%s"' % self.password)
         list(map(self.queue_command, self.init_commands))
 
 
