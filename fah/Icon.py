@@ -24,6 +24,7 @@ import gi
 gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk
+from gi.repository import GdkPixbuf
 
 
 icons = {'tiny': None, 'small': None, 'medium': None, 'large': None}
@@ -31,8 +32,9 @@ viewer_icons = {'tiny': None, 'small': None, 'medium': None, 'large': None}
 
 
 def load_rgba_pixbuf(data, dim):
-    return Gtk.gdk.pixbuf_new_from_data(data, Gtk.gdk.COLORSPACE_RGB,
-                                        True, 8, dim, dim, dim * 4)
+    return GdkPixbuf.Pixbuf.new_from_data(data, GdkPixbuf.Colorspace.RGB,
+                                        True, 8, dim, dim, dim * 4, None, None)
+# TODO: Fix gtk3 loading of icon
 
 
 def get_icon(name):

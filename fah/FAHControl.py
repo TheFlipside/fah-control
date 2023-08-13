@@ -301,8 +301,9 @@ class FAHControl(SingleAppServer):
             win.connect('configure_event', self.store_dimensions, name)
 
         # About Dialog
-        icon = builder.get_object('about_icon')
-        icon.set_from_pixbuf(get_icon('medium'))
+        # icon = builder.get_object('about_icon')
+        # icon.set_from_pixbuf(get_icon('medium'))
+        # TODO: Fix gtk3 loading of icon
         about_version = builder.get_object('about_version')
         about_version.set_markup('<b>Version: %s</b>' % version)
 
