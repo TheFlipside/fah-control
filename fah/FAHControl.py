@@ -310,7 +310,7 @@ class FAHControl(SingleAppServer):
             icon.set_from_file(icon_file)
 
         about_version = builder.get_object('about_version')
-        version = "1.0"  # dirty fix
+        version = "8.0"  # dirty fix
         about_version.set_markup('<b>Version: %s</b>' % version)
 
         # Preferences
