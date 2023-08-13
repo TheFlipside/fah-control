@@ -31,6 +31,14 @@ import shlex
 import subprocess
 from .wraplabel import WrapLabel
 
+from fah import *
+from fah.db import *
+from fah.util import *
+
+import gi
+
+gi.require_version("Gtk", "3.0")
+
 from gi.repository import Gtk
 from gi.repository import GLib
 from gi.repository import Gdk
@@ -42,10 +50,6 @@ from gi.repository import Pango
 if sys.platform == 'darwin':
     gi.require_version('GtkosxApplication', '1.0')
     from gi.repository import GtkosxApplication
-
-from fah import *
-from fah.db import *
-from fah.util import *
 
 
 def set_tree_view_font(widget, font):
@@ -301,9 +305,10 @@ class FAHControl(SingleAppServer):
             win.connect('configure_event', self.store_dimensions, name)
 
         # About Dialog
-        # icon = builder.get_object('about_icon')
-        # icon.set_from_pixbuf(get_icon('medium'))
-        # TODO: Fix gtk3 loading of icon
+        icon = builder.get_object('about_icon',)
+        if icon_file:
+            icon.set_from_file(icon_file)
+
         about_version = builder.get_object('about_version')
         about_version.set_markup('<b>Version: %s</b>' % version)
 
