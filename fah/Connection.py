@@ -204,21 +204,24 @@ class Connection:
 
         return bytesWritten
 
-
     def queue_command(self, command):
-        if debug: print(('command: ' + command))
+        if not isinstance(command, bytes):
+            command = command.encode()
+        if debug:
+            print(('command: ' + str(command)))
         self.writeBuf += command + b'\n'
 
 
     def parse_message(self, version, type, data):
         try:
             msg = json.loads(data, cls = PYONDecoder)
-            #if debug: print 'MSG:', type, msg
+            # if debug:
+            #     print('MSG:', type, msg)
             self.messages.append((version, type, msg))
             self.last_message = time.time()
         except Exception as e:
             print(('ERROR parsing PyON message: %s: %s'
-                   % (str(e), data.encode('string_escape'))))
+                   % (str(e), str(data))))
 
 
     def parse(self):
