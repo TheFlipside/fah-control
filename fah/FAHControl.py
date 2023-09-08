@@ -19,30 +19,27 @@
 #                                                                              #
 ################################################################################
 
-import sys
-import time
-import re
-import traceback
 import platform
-import urllib.request, urllib.parse, urllib.error
-
-import webbrowser
+import re
 import shlex
 import subprocess
-from .wraplabel import WrapLabel
+import sys
+import time
+import traceback
+import urllib.error
+import urllib.parse
+import urllib.request
+import webbrowser
 
+import gi
 from fah import *
 from fah.db import *
 from fah.util import *
 
-import gi
+from .wraplabel import WrapLabel
 
-from gi.repository import GObject
-from gi.repository import Pango
-from gi.repository import Gtk
-from gi.repository import GLib
-from gi.repository import Gdk
-from gi.repository import Pixbuf, InterpType
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gdk, GLib, GObject, Gtk, Pango
 
 # OSX integration
 if sys.platform == 'darwin':

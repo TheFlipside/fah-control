@@ -21,9 +21,8 @@
 
 import gi
 
-from gi.repository import Gtk
-from gi.repository import GdkPixbuf
-
+gi.require_version("Gtk", "3.0")
+from gi.repository import GdkPixbuf, Gtk
 
 icons = {'tiny': None, 'small': None, 'medium': None, 'large': None}
 viewer_icons = {'tiny': None, 'small': None, 'medium': None, 'large': None}

@@ -28,7 +28,7 @@ from fah.util import status_to_color
 from fah.util import get_span_markup
 from fah.util import get_widget_str_value
 from fah.util import set_widget_str_value
-from fah import SlotConfig
+from fah import SlotConfig as slot
 
 from gi.repository import Gtk
 from gi.repository import GLib

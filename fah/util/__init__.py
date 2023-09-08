@@ -21,25 +21,27 @@
 
 
 # fah.util
-import sys
 import os
+import sys
+
 import gi
 
-from .SingleApp import *
-from .EntryValidator import *
-from .PasswordValidator import *
-from .OrderedDict import *
-from .PYONDecoder import *
-
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+from .EntryValidator import *
+from .OrderedDict import *
+from .PasswordValidator import *
+from .PYONDecoder import *
+from .SingleApp import *
 
 if sys.platform == 'darwin':
     try:
         from gtk_osxapplication import *
     except:
-        from gtkosx_application import gtkosx_application_get_resource_path \
-            as quartz_application_get_resource_path
+        from gtkosx_application import \
+            gtkosx_application_get_resource_path as \
+            quartz_application_get_resource_path
 
 
 

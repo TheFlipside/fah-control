@@ -19,12 +19,11 @@
 #                                                                              #
 ################################################################################
 
-
 import gi
 
-from gi.repository import Gtk
-
+gi.require_version("Gtk", "3.0")
 from fah.util.EntryValidator import EntryValidator
+from gi.repository import Gtk
 
 
 class PasswordValidator(EntryValidator):

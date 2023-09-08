@@ -20,10 +20,8 @@
 ################################################################################
 
 import gi
-
-from gi.repository import Gtk
-from gi.repository import GObject
-from gi.repository import Pango
+gi.require_version("Gtk", "3.0")
+from gi.repository import GObject, Gtk, Pango
 
 
 class WrapLabel(Gtk.Label):

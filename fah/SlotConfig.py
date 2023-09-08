@@ -19,14 +19,13 @@
 #                                                                              #
 ################################################################################
 
-import gi
 import copy
 
-from fah.util import parse_bool
-from fah.util import status_to_color
+import gi
 
-from gi.repository import GObject
-from gi.repository import Gtk
+gi.require_version("Gtk", "3.0")
+from fah.util import parse_bool, status_to_color
+from gi.repository import GObject, Gtk
 
 
 class SlotConfig:
