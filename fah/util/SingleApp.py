@@ -27,9 +27,6 @@ import socketserver
 import gi
 
 from fah.Icon import get_icon
-
-gi.require_version("Gtk", "3.0")
-
 from gi.repository import Gtk
 
 

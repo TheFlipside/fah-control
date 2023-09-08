@@ -26,8 +26,6 @@ from gi.repository import Gtk
 
 from fah.util.EntryValidator import EntryValidator
 
-gi.require_version('Gtk', '3.0')
-
 
 class PasswordValidator(EntryValidator):
     def __init__(self, app, password_entry, reenter_entry, valid_image,

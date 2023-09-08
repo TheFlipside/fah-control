@@ -25,8 +25,6 @@ import copy
 from fah.util import parse_bool
 from fah.util import status_to_color
 
-gi.require_version("Gtk", "3.0")
-
 from gi.repository import GObject
 from gi.repository import Gtk
 

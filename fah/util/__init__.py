@@ -33,8 +33,6 @@ from .PYONDecoder import *
 
 from gi.repository import Gtk
 
-gi.require_version('Gtk', '3.0')
-
 
 if sys.platform == 'darwin':
     try:
